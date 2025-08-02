@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rapport d'intervention</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 10px;
+      background: #f5f5f5;
+    }
+    form {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 150px;
+      margin-top: 5px;
+      touch-action: none;
+    }
+    .section {
+      margin-top: 25px;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <form id="rapportForm">
+    <img src="logo-gtech.png" alt="Logo GTECH" style="max-height: 60px; display: block; margin: auto;" />
+    <h2 id="rapportTitre" style="text-align:center; margin-top: 10px;">Rapport d'intervention</h2>
+
+    <label>Date du rapport *</label>
+    <input type="date" id="date" required />
+
+    <label>Lieu *</label>
+    <input type="text" id="lieu" required />
+
+    <label>Site *</label>
+    <input type="text" id="site" required />
+
+    <label>Description de la demande *</label>
+    <textarea id="description" required></textarea>
+
+    <label>Compte rendu d'intervention</label>
+    <textarea id="compteRendu"></textarea>
+
+    <label>Suite à donner *</label>
+    <textarea id="suite" required></textarea>
+
+    <label>Technicien 1 *</label>
+    <select id="technicien1" required>
+      <option value="">-- Choisir --</option>
+      <option>Benoist Robert</option>
+      <option>Blanchet Brice</option>
+      <option>Lemonnier Mathieu</option>
+      <option>Cichetti Paul</option>
+      <option>Zerouhe Abdelilah</option>
+      <option>Technicien 6</option>
+      <option>Autre Intervenant</option>
+      <option>Technicien Astreinte</option>
+    </select>
+
+    <div class="section">
+      <label>Heure d'arrivée</label>
+      <input type="time" id="arrivee1" />
+      <label>Heure de départ</label>
+      <input type="time" id="depart1" />
+    </div>
+
+    <label>Technicien 2</label>
+    <select id="technicien2">
+      <option value="">-- Choisir --</option>
+      <option>Benoist Robert</option>
+      <option>Blanchet Brice</option>
+      <option>Lemonnier Mathieu</option>
+      <option>Cichetti Paul</option>
+      <option>Zerouhe Abdelilah</option>
+      <option>Technicien 6</option>
+      <option>Autre Intervenant</option>
+      <option>Technicien Astreinte</option>
+    </select>
+
+    <div class="section">
+      <label>Heure d'arrivée</label>
+      <input type="time" id="arrivee2" />
+      <label>Heure de départ</label>
+      <input type="time" id="depart2" />
+    </div>
+
+    <label>Technicien 3</label>
+    <select id="technicien3">
+      <option value="">-- Choisir --</option>
+      <option>Benoist Robert</option>
+      <option>Blanchet Brice</option>
+      <option>Lemonnier Mathieu</option>
+      <option>Cichetti Paul</option>
+      <option>Zerouhe Abdelilah</option>
+      <option>Technicien 6</option>
+      <option>Autre Intervenant</option>
+      <option>Technicien Astreinte</option>
+    </select>
+
+    <div class="section">
+      <label>Heure d'arrivée</label>
+      <input type="time" id="arrivee3" />
+      <label>Heure de départ</label>
+      <input type="time" id="depart3" />
+    </div>
+
+    <label>Déplacement</label>
+    <input type="number" id="deplacement" min="0" />
+
+    <label>Astreinte de nuit *</label>
+    <select id="astreinteNuit" required>
+      <option value="">-- Choisir --</option>
+      <option>Oui</option>
+      <option>Non</option>
+    </select>
+
+    <label>Astreinte samedi (hors 8h-17h) *</label>
+    <select id="astreinteSamedi" required>
+      <option value="">-- Choisir --</option>
+      <option>Oui</option>
+      <option>Non</option>
+    </select>
+
+    <label>Astreinte dimanche/jour férié *</label>
+    <select id="astreinteDimanche" required>
+      <option value="">-- Choisir --</option>
+      <option>Oui</option>
+      <option>Non</option>
+    </select>
+
+    <label>Nom du client *</label>
+    <input type="text" id="client" required />
+
+    <label>Signature du client *</label>
+    <canvas id="signatureCanvas"></canvas>
+
+    <button type="submit">Télécharger le PDF</button>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    document.getElementById('date').valueAsDate = new Date();
+
+    const canvas = document.getElementById("signatureCanvas");
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("pointerdown", e => {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+
+    canvas.addEventListener("pointermove", e => {
+      if (!drawing) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    });
+
+    canvas.addEventListener("pointerup", () => {
+      drawing = false;
+    });
+
+    document.getElementById("rapportForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+
+      pdf.setDrawColor(150);
+      pdf.setLineWidth(0.5);
+      pdf.rect(5, 5, 200, 287);
+
+      const date = document.getElementById('date').value;
+      const lieu = document.getElementById('lieu').value;
+      const site = document.getElementById('site').value;
+      const description = document.getElementById('description').value;
+      const compteRendu = document.getElementById('compteRendu').value;
+      const suite = document.getElementById('suite').value;
+      const deplacement = document.getElementById('deplacement').value;
+      const astreinteNuit = document.getElementById('astreinteNuit').value;
+      const astreinteSamedi = document.getElementById('astreinteSamedi').value;
+      const astreinteDimanche = document.getElementById('astreinteDimanche').value;
+      const client = document.getElementById('client').value;
+
+      const titre = `${date} - ${lieu} - ${site} - ${description.substring(0, 30)}...`;
+
+      pdf.setFontSize(16);
+      pdf.text("Rapport d'intervention", 105, 15, { align: 'center' });
+      pdf.setFontSize(11);
+      pdf.text(titre, 105, 23, { align: 'center' });
+
+      let y = 30;
+      function addField(label, value) {
+        pdf.setFont(undefined, 'bold');
+        pdf.text(`${label}:`, 10, y);
+        pdf.setFont(undefined, 'normal');
+        pdf.text(value || '-', 60, y);
+        y += 8;
+      }
+
+      addField('Date', date);
+      addField('Lieu', lieu);
+      addField('Site', site);
+      addField('Description de la demande', description);
+      addField('Compte rendu', compteRendu);
+      addField('Suite à donner', suite);
+      addField('Déplacement', deplacement);
+      addField('Astreinte de nuit', astreinteNuit);
+      addField('Astreinte samedi', astreinteSamedi);
+      addField('Astreinte dimanche/jour férié', astreinteDimanche);
+      addField('Nom du client', client);
+
+      const imgData = canvas.toDataURL("image/png");
+      pdf.addImage(imgData, 'PNG', 10, y + 10, 100, 30);
+      pdf.text('Signature du client', 10, y + 45);
+
+      pdf.save(`rapport_intervention_${date}.pdf`);
+    });
+  </script>
+</body>
+</html>
