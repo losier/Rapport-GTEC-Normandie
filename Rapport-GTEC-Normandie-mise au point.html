@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rapport d'intervention</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 10px;
+      background: #f5f5f5;
+    }
+    form {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      width: 100%;
+      height: 150px;
+      margin-top: 5px;
+      touch-action: none;
+    }
+    .section {
+      margin-top: 25px;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+    }
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <form id="rapportForm">
+    <img src="logo-gtech.png" alt="Logo GTECH" style="max-height: 60px; display: block; margin: auto;" />
+    <h2 id="rapportTitre" style="text-align:center; margin-top: 10px;">Rapport d'intervention</h2>
+
+    <label>Date du rapport *</label>
+    <input type="date" id="date" required />
+
+    <label>Lieu *</label>
+    <input type="text" id="lieu" required />
+
+    <label>Site *</label>
+    <input type="text" id="site" required />
+
+    <label>Nom du demandeur</label>
+    <input type="text" id="demandeur" />
+
+    <label>Motif *</label>
+    <select id="motif" required>
+      <option value="">-- Choisir --</option>
+      <option>Maintenance</option>
+      <option>Dépannage</option>
+      <option>Travaux sur devis</option>
+      <option>Attachement</option>
+    </select>
+
+    <label>N° Contrat Maintenance</label>
+    <input type="text" id="contrat" />
+
+    <label>N° Devis</label>
+    <input type="text" id="devis" />
+
+    <label>Description de la demande *</label>
+    <textarea id="description" required></textarea>
+
+    <label>Compte rendu d'intervention</label>
+    <textarea id="compteRendu"></textarea>
+
+    <label>Suite à donner *</label>
+    <textarea id="suite" required></textarea>
+
+    <label>Technicien 1 *</label>
+    <select id="technicien1" required>
+      <option value="">-- Choisir --</option>
+      <option>Benoist Robert</option>
+      <option>Blanchet Brice</option>
+      <option>Lemonnier Mathieu</option>
+      <option>Cichetti Paul</option>
+      <option>Zerouhe Abdelilah</option>
+      <option>Technicien 6</option>
+      <option>Autre Intervenant</option>
+      <option>Technicien Astreinte</option>
+    </select>
+    <div class="section">
+      <label>Heure d'arrivée</label>
+      <input type="time" id="arrivee1" />
+      <label>Heure de départ</label>
+      <input type="time" id="depart1" />
+    </div>
+
+    <label>Technicien 2</label>
+    <select id="technicien2">
+      <option value="">-- Choisir --</option>
+      <option>Benoist Robert</option>
+      <option>Blanchet Brice</option>
+      <option>Lemonnier Mathieu</option>
+      <option>Cichetti Paul</option>
+      <option>Zerouhe Abdelilah</option>
+      <option>Technicien 6</option>
+      <option>Autre Intervenant</option>
+      <option>Technicien Astreinte</option>
+    </select>
+    <div class="section">
+      <label>Heure d'arrivée</label>
+      <input type="time" id="arrivee2" />
+      <label>Heure de départ</label>
+      <input type="time" id="depart2" />
+    </div>
+
+    <label>Technicien 3</label>
+    <select id="technicien3">
+      <option value="">-- Choisir --</option>
+      <option>Benoist Robert</option>
+      <option>Blanchet Brice</option>
+      <option>Lemonnier Mathieu</option>
+      <option>Cichetti Paul</option>
+      <option>Zerouhe Abdelilah</option>
+      <option>Technicien 6</option>
+      <option>Autre Intervenant</option>
+      <option>Technicien Astreinte</option>
+    </select>
+    <div class="section">
+      <label>Heure d'arrivée</label>
+      <input type="time" id="arrivee3" />
+      <label>Heure de départ</label>
+      <input type="time" id="depart3" />
+    </div>
+
+    <label>Matériels fournis</label>
+    <textarea id="materiels"></textarea>
+
+    <label>Status *</label>
+    <select id="status" required>
+      <option value="">-- Choisir --</option>
+      <option>Fini</option>
+      <option>Voir suite à donner</option>
+    </select>
+
+    <label>Déplacement</label>
+    <input type="number" id="deplacement" min="0" />
+
+    <label>Astreinte de nuit *</label>
+    <select id="astreinteNuit" required>
+      <option value="">-- Choisir --</option>
+      <option>Oui</option>
+      <option>Non</option>
+    </select>
+
+    <label>Astreinte samedi (hors 8h-17h) *</label>
+    <select id="astreinteSamedi" required>
+      <option value="">-- Choisir --</option>
+      <option>Oui</option>
+      <option>Non</option>
+    </select>
+
+    <label>Astreinte dimanche/jour férié *</label>
+    <select id="astreinteDimanche" required>
+      <option value="">-- Choisir --</option>
+      <option>Oui</option>
+      <option>Non</option>
+    </select>
+
+    <label>Nom du client *</label>
+    <input type="text" id="client" required />
+
+    <label>Signature du client *</label>
+    <canvas id="signatureCanvas"></canvas>
+    <div class="button-row">
+      <button type="button" onclick="clearSignature()">Effacer la signature</button>
+      <button type="submit">Télécharger le PDF</button>
+    </div>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    document.getElementById('date').valueAsDate = new Date();
+
+    const canvas = document.getElementById("signatureCanvas");
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("pointerdown", e => {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+    canvas.addEventListener("pointermove", e => {
+      if (!drawing) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    });
+    canvas.addEventListener("pointerup", () => drawing = false);
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    document.getElementById("rapportForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 20;
+
+      function addField(label, value) {
+        doc.setFont(undefined, 'bold');
+        doc.text(`${label}:`, 10, y);
+        doc.setFont(undefined, 'normal');
+        doc.text(value || '-', 60, y, { maxWidth: 140 });
+        y += 8;
+        if (y > 280) {
+          doc.addPage();
+          y = 20;
+        }
+      }
+
+      const date = document.getElementById('date').value;
+      const lieu = document.getElementById('lieu').value;
+      const site = document.getElementById('site').value;
+      const description = document.getElementById('description').value;
+
+      const titre = `${date} - ${lieu} - ${site} - ${description.substring(0, 30)}...`;
+
+      const logo = new Image();
+      logo.src = 'logo-gtech.png';
+      logo.onload = function () {
+        doc.addImage(logo, 'PNG', 10, 10, 40, 15);
+        doc.setFontSize(14);
+        doc.text("Rapport d'intervention", 105, 15, { align: "center" });
+        doc.setFontSize(10);
+        doc.text(titre, 105, 25, { align: "center" });
+        y = 35;
+
+        const fields = [
+          ['Date', date],
+          ['Lieu', lieu],
+          ['Site', site],
+          ['Nom du demandeur', document.getElementById('demandeur').value],
+          ['Motif', document.getElementById('motif').value],
+          ['Contrat', document.getElementById('contrat').value],
+          ['Devis', document.getElementById('devis').value],
+          ['Description de la demande', description],
+          ['Compte rendu', document.getElementById('compteRendu').value],
+          ['Suite à donner', document.getElementById('suite').value],
+          ['Technicien 1', document.getElementById('technicien1').value],
+          ['Heure arrivée 1', document.getElementById('arrivee1').value],
+          ['Heure départ 1', document.getElementById('depart1').value],
+          ['Technicien 2', document.getElementById('technicien2').value],
+          ['Heure arrivée 2', document.getElementById('arrivee2').value],
+          ['Heure départ 2', document.getElementById('depart2').value],
+          ['Technicien 3', document.getElementById('technicien3').value],
+          ['Heure arrivée 3', document.getElementById('arrivee3').value],
+          ['Heure départ 3', document.getElementById('depart3').value],
+          ['Matériels fournis', document.getElementById('materiels').value],
+          ['Status', document.getElementById('status').value],
+          ['Déplacement', document.getElementById('deplacement').value],
+          ['Astreinte nuit', document.getElementById('astreinteNuit').value],
+          ['Astreinte samedi', document.getElementById('astreinteSamedi').value],
+          ['Astreinte dimanche/jour férié', document.getElementById('astreinteDimanche').value],
+          ['Nom du client', document.getElementById('client').value]
+        ];
+
+        fields.forEach(([label, value]) => addField(label, value));
+
+        const imgData = canvas.toDataURL("image/png");
+        doc.addImage(imgData, 'PNG', 10, y + 10, 100, 30);
+        doc.text('Signature du client', 10, y + 45);
+
+        doc.save(`rapport_intervention_${date}.pdf`);
+      };
+    });
+  </script>
+</body>
+</html>
